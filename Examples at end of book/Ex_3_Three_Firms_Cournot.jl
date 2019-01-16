@@ -2,6 +2,7 @@ using JuMP, Complementarity
 
 firms = 1:3
 production_process = 1:2
+#Matricies defined similar to Matlab, with space indicating columns and ; indicating rows
 C = [0.55 0.81;
 	0.62 1.25;
 	0.78 1.35]
@@ -31,6 +32,7 @@ m = MCPModel()
 @complementarity(m, Capacity, gamma)
 @complementarity(m, MarketClearing, lambda)
 
+print(m)
 solution = solveMCP(m, linear = true)
 
 q = getvalue(q); x = getvalue(x)

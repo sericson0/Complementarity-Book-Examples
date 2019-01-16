@@ -25,27 +25,4 @@ function LP_Model()
 	println(getvalue(F))
 end
 
-
-#complementarity problem
-#Not working
-# function MCP_Model()
-# 	rho_s = [0.2 for i in producers]
-# 	kappa_s = [0 0 -7 0]
-# 	rho_d = [1 for j in consumers]
-# 	kappa_d = [29 46 15 13 42]
-
-# 	m = MCPModel()
-# 	@variable(m, x[i in producers, j in consumers] >= 0, start = 100)
-# 	@mapping(m, pairs[i in producers, j in consumers], rho_s[i]*sum(x[i, j1] for j1 in consumers) + kappa_s[i] + costs[i,j] + 
-# 		rho_d[j]*sum(x[i1, j] for i1 in producers) - kappa_d[j] >= 0)
-# 	@complementarity(m, pairs, x)
-	
-# 	print(m)
-# 	solveMCP(m, linear = true)
-
-# 	@show getvalue(x)
-# end
-
-
 LP_Model()
-# MCP_Model()
