@@ -1,4 +1,4 @@
-# #Code for example problem 1.2.1 -- Three-Variable MCP. I have also generalized the problem to 5 players
+# #Code for example problem 1.2.5 -- Energy Duopoly MCP. I have also generalized the problem to 5 players
 
 #The MCP problem here N suppliers competing via a cournot game and a demand curve of alpha - beta*Q.
 #There is also a total quantity constraint (say a transmission line constraint) such that sum(q_i) <= Q_max
@@ -13,7 +13,7 @@
 using Complementarity, JuMP, LinearAlgebra
 
 #Creates a user defined function to solve an oligopoly equilibrium using an MCP framework
-function oligopolyMCP(costs, alpha, beta, Q_max, print_equation = true)
+function oligopolyMCP(costs, alpha, beta, Q_max, print_equation = true) 
 	#see https://github.com/chkwon/Complementarity.jl for description of MCP modeling in Julia
 	m = MCPModel()
 	N = length(costs)
@@ -27,7 +27,7 @@ function oligopolyMCP(costs, alpha, beta, Q_max, print_equation = true)
 	@variable(m, lambda_Q >= 0)
 	#@mapping determines the equations for the complementarity problems. The second input (eq and Q_constraint)
 	#names the complementarity equation while the third input defines the complementarity equation 
-	@mapping(m, eq[i in prod_id], sum{beta*M[i,j]*generation[i], j in prod_id} - alpha + costs[i] + lambda_Q)
+	@mapping(m, eq[i in prod_id], sum(beta*M[i,j]*generation[j] for j in prod_id) - alpha + costs[i] + lambda_Q)
 	@mapping(m, Q_constraint, Q_max - sum{generation[i], i in prod_id})
 	#@complementarity connects equations to variables. 
 	@complementarity(m, eq, generation)
